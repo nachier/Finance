@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+   <link href="~/Content/bootstrap.min.css"  rel="stylesheet" type="text/css"/>
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container" style="height:120px;">
+           
+        </div>
+    </nav>
+    <div class="container" style="margin-top:120px;">
+        @RenderBody()
+    </div>
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+        <div class="container" style="height:120px;">
+            FinaceSytem&copy 2017
+        </div>
+    </nav>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/plugins/piexif.min.js"></script>
+    <script src="~/Scripts/plugins/purify.min.js"></script>
+    <script src="~/Scripts/plugins/sortable.min.js"></script>
+    <script src="~/Scripts/fileinput.min.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

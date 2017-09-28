@@ -7,7 +7,8 @@ using System.Web.Mvc;
 namespace FinanceSystem.Controllers
 {
     public class HomeController : Controller
-    {
+    {      
+
         public ActionResult Index()
         {
             return View();
@@ -25,6 +26,7 @@ namespace FinanceSystem.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
-        }
+        }      
     }
+  
 }
