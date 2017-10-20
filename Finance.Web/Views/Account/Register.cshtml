@@ -1,0 +1,72 @@
+﻿@model Finance.Web.ViewModels.RegisterViewModel
+@{
+    ViewBag.Title = "注册";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+   
+}
+
+<h2>@ViewBag.Title。</h2>
+<link  href="~/Content/bootstrap-fileinput/css/fileinput.min.css" type="text/css" rel="stylesheet"/>
+<row>
+    <div class="col-md-6 col-md-offset-3">
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            <h4>创建新帐户。</h4>
+            <hr />
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.ImageUrl, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    <input id="ImageUrl" type="file">
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" class="btn btn-default" value="注册" />
+                </div>
+            </div>
+        }
+    </div>
+</row>
+
+@section Scripts {
+<script>
+    $(function () {
+        //初始化fileinput控件（第一次初始化）
+        $('#ImageUrl').fileinput({
+            language: 'zh', //设置语言
+            uploadUrl: "/Account/Register", //上传的地址
+            allowedFileExtensions: ['jpg', 'png', 'gif'],//接收的文件后缀,
+            maxFileCount: 100,
+            enctype: 'multipart/form-data',
+            showUpload: true, //是否显示上传按钮
+            showCaption: false,//是否显示标题
+            browseClass: "btn btn-primary", //按钮样式
+            previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+            msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+        });
+    })
+</script>
+    @Scripts.Render("~/bundles/jqueryval")
+}
