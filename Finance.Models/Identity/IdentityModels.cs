@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.Entity;
+using  System.Data.Entity.Infrastructure;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -22,13 +23,12 @@ namespace Finance.Models.Identity
         }
     }
 
-    [DbConfigurationType(typeof(MySql.Data.Entity.MySqlEFConfiguration))]
+    [DbConfigurationType(typeof(FinanceDbConfiguration))]
     public class FinanceDB : IdentityDbContext<ApplicationUser, ApplicationRole, int, ApplicationUserLogin, ApplicationUserRole, ApplicationUserCliam>
     {
         public FinanceDB()
             : base("FinanceDB")
         {
-
         }
 
         public static FinanceDB Create()
@@ -75,6 +75,28 @@ namespace Finance.Models.Identity
             role.HasMany(r => r.Users).WithRequired().HasForeignKey(ur => ur.RoleId);
         }
     }
+
+    /// <summary>
+    /// 自定义配置
+    /// </summary>
+    public class FinanceDbConfiguration:DbConfiguration
+    {
+        public FinanceDbConfiguration()
+        {
+            SetTransactionHandler("MySql.Data.MySqlClient", () => new CommitFailureHandler());
+            SetExecutionStrategy("MySql.Data.MySqlClient", () => new FinanceDbExcutionStrategy(1, TimeSpan.FromSeconds(30)));
+        }
+    }
+
+    public class FinanceDbExcutionStrategy:DbExecutionStrategy
+    {
+        public FinanceDbExcutionStrategy(int maxRetryCount, TimeSpan maxDelay) : base(maxRetryCount, maxDelay) { }
+        protected override bool ShouldRetryOn(Exception exception)
+        {
+            return true;
+        }
+    }
+
 
     public class ApplicationUserLogin : IdentityUserLogin<int> { }
     public class ApplicationUserCliam : IdentityUserClaim<int> { }
